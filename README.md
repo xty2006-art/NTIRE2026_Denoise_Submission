@@ -2,10 +2,6 @@ SUNet Optimized Inference Pipeline
 
 NTIRE 2026 Image Denoising Challenge (noise level = 50)
 
-Team Name: [nudt_bestin_ntire]
-Team ID: [17]
-Team Leader: [Tianyu Xiao]
-Leader Email: [3980209359@qq.com]
 This project is an optimized inference implementation for image denoising task in NTIRE 2026. It is built upon the SUNet model architecture, with comprehensive engineering improvements on inference strategy, memory efficiency, image reconstruction, reproducibility, and evaluation metrics.
 Method Overview
 Our solution is based on the SUNet (Swin Transformer UNet) denoising backbone proposed by Fan et al. We do not modify the original model structure, but redesign the entire inference pipeline to achieve better denoising quality, faster speed, lower GPU memory consumption, and artifact-free reconstruction for high-resolution test images.
