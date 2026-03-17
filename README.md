@@ -27,83 +27,161 @@ Major Optimizations (Our Contributions)
 3.	Command-line configurable paths and parameters.
 4.	Clear progress bar and real-time feedback.
 Environment
-ca-certificates	2026.2.25	
-certifi	2026.2.25	
-charset-normalizer	3.4.4	
-colorama	0.4.6	
+ca-certificates	2026.2.25
+	
+certifi	2026.2.25
+
+charset-normalizer	3.4.4
+
+colorama	0.4.6
+
 einops	0.8.1	
+
 filelock	3.16.1	
+
 fsspec	2025.3.0	
+
 huggingface-hub	0.36.2	
+
 idna	3.11	
+
 imageio	2.35.1	
+
 jinja2	3.1.6	
+
 joblib	1.4.2	
+
 lazy-loader	0.4	
+
 libffi	3.5.2	
+
 liblzma	5.8.2	
+
 liblzma-devel	5.8.2	
+
 libsqlite	3.51.2	
+
 libzlib	1.3.1	
+
 markupsafe	2.1.5	
+
 mpmath	1.3.0	
+
 natsort	8.4.0	
+
 networkx	3.1	
+
 numpy	1.24.4	
+
 nw	0.0.5	
+
 opencv-python	4.13.0.92	
+
 openssl	3.6.1	
+
 packaging	26.0	
+
 pillow	10.4.0	
+
 pip	25.0.1	
+
 protobuf	5.29.6	
+
 python	3.8.20	
+
 pytorch-msssim	1.0.0	
+
 pywavelets	1.4.1	
+
 pyyaml	6.0.3	
+
 requests	2.32.4	
+
 safetensors	0.5.3	
+
 scikit-image	0.21.0	
+
 scipy	1.10.1	
+
 setuptools	75.3.0	
+
 sympy	1.13.3	
+
 tensorboardx	2.6.2.2	
+
 thop	0.1.1-2209072238	
+
 tifffile	2023.7.10	
+
 timm	0.9.16	
+
 tk	8.6.13	
+
 torch	2.1.0+cu121	
+
 torchaudio	2.1.0+cu121	
+
 torchvision	0.16.0+cu121	
+
 tqdm	4.67.3	
+
 typing-extensions	4.13.2	
+
 ucrt	10.0.26100.0	
+
 urllib3	2.2.3	
+
 vc	14.3	
+
 vc14-runtime	14.44.35208	
+
 vcomp14	14.44.35208	
+
 warmup-scheduler	0.3	
+
 wheel	0.45.1	
+
 xz	5.8.2	
+
 xz-tools	5.8.2	
+
 How to Run
+
 python demo_any_resolution \
+
     --input_dir SUNet_Project/SUNet-main/datasets/Denoising_DIV2K/test/input \
+    
     --result_dir SUNet_Project/SUNet-main/datasets/Denoising_DIV2K/test/target \
+    
     --weights pretrain-model/model_bestPSNR.pth
+    
 Citation
+
 Original SUNet Model
+
 @inproceedings{fan2022sunet,
+
   title={SUNet: swin transformer UNet for image denoising},
+  
   author={Fan, Chi-Mao and Liu, Tsung-Jung and Liu, Kuan-Hsien},
+  
   booktitle={2022 IEEE International Symposium on Circuits and Systems (ISCAS)},
+  
   pages={2333--2337},
+  
   year={2022},
+  
   organization={IEEE}
+  
 }
+
 Official repository: https://github.com/FanChiMao/SUNet
+
 Acknowledgement
+
 We thank the authors of SUNet for their excellent work and open-source contribution. Our optimized inference pipeline fully respects the original model and is designed for better performance and reproducibility in the NTIRE 2026 challenge.
+
 Contact
+
 For reproducibility issues or questions about the optimized code, please contact the team leader via email:3980209359@qq.com
 
