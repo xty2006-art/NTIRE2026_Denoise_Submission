@@ -26,6 +26,7 @@ Major Optimizations (Our Contributions)
 2.	Automatic GPU/CPU detection.
 3.	Command-line configurable paths and parameters.
 4.	Clear progress bar and real-time feedback.
+
 Environment
 ca-certificates	2026.2.25
 	
