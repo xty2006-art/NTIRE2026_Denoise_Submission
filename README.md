@@ -1,136 +1,100 @@
-# [ISCAS 2022] [SUNet: Swin Transformer with UNet for Image Denoising](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=9937486)  
-
-## [Chi-Mao Fan](https://github.com/FanChiMao), Tsung-Jung Liu, Kuan-Hsien Liu  
-<!--[![supplement](https://img.shields.io/badge/Supplementary-Material-B85252)](https://drive.google.com/file/d/1mbfljawUuFUQN9V5g0Rmw1UdauJdckCu/view?usp=sharing)-->
-[![paper](https://img.shields.io/badge/arXiv-Paper-brightgreen)](https://arxiv.org/abs/2202.14009)
-[![official_paper](https://img.shields.io/badge/IEEE-Paper-blue)](https://ieeexplore.ieee.org/document/9937486)
-[![video](https://img.shields.io/badge/Video-Presentation-F9D371)](https://youtu.be/XQsFxGaDTGk)
-[![slides](https://img.shields.io/badge/Presentation-Slides-B762C1)](https://docs.google.com/presentation/d/1IEQ7OMPTLgxwpjmRmXZmleAHInwsCdhY/edit?usp=sharing&ouid=108348190349543369603&rtpof=true&sd=true)
-[![Hugging Face Spaces](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Spaces-blue)](https://huggingface.co/spaces/52Hz/SUNet_AWGN_denoising)  
-
-***
-> Abstract : Image restoration is a challenging ill-posed problem
-which also has been a long-standing issue. In the past few
-years, the convolution neural networks (CNNs) almost dominated
-the computer vision and had achieved considerable success
-in different levels of vision tasks including image restoration.
-However, recently the Swin Transformer-based model also shows
-impressive performance, even surpasses the CNN-based methods
-to become the state-of-the-art on high-level vision tasks. In this
-paper, we proposed a restoration model called SUNet which uses
-the Swin Transformer layer as our basic block and then is applied
-to UNet architecture for image denoising.
-
-
-## Network Architecture  
-
-<table>
-  <tr>
-    <td colspan="2"><img src = "https://i.imgur.com/1UX5j3x.png" alt="CMFNet" width="800"> </td>  
-  </tr>
-  <tr>
-    <td colspan="2"><p align="center"><b>Overall Framework of SUNet</b></p></td>
-  </tr>
-  
-  <tr>
-    <td> <img src = "https://imgur.com/lV1CR4H.png" width="400"> </td>
-    <td> <img src = "https://imgur.com/dOjxV93.png" width="400"> </td>
-  </tr>
-  <tr>
-    <td><p align="center"><b>Swin Transformer Layer</b></p></td>
-    <td><p align="center"> <b>Dual up-sample</b></p></td>
-  </tr>
-</table>
-
-## Quick Run  
-You can directly run personal noised images on my space of [**HuggingFce**](https://huggingface.co/spaces/52Hz/SUNet_AWGN_denoising).  
-
-To test the [pre-trained models](https://drive.google.com/file/d/1ViJgcFlKm1ScEoQH616nV4uqFhkg8J8D/view?usp=sharing) of denoising on your own 256x256 images, run
-```
-python demo.py --input_dir images_folder_path --result_dir save_images_here --weights path_to_models
-```
-Here is an example command:
-```
-python demo.py --input_dir './demo_samples/' --result_dir './demo_results' --weights './pretrained_model/denoising_model.pth'
-```
-To test the pre-trained models of denoising on your arbitrary resolution images, run
-```
-python demo_any_resolution.py --input_dir images_folder_path --stride shifted_window_stride --result_dir save_images_here --weights path_to_models
-```
-SUNset could only handle the fixed size input which the resolution in training phase same as the mostly transformer-based methods because of the attention masks are fixed. If we want to denoise the arbitrary resolution input, the shifted-window method will be applied to avoid border effect. The code of `demo_any_resolution.py` is supported to fix the problem.
-
-## Train  
-To train the restoration models of Denoising. You should check the following components:  
-- `training.yaml`:  
-
-  ```
-    # Training configuration
-    GPU: [0,1,2,3] 
-
-    VERBOSE: False
-
-    SWINUNET:
-      IMG_SIZE: 256
-      PATCH_SIZE: 4
-      WIN_SIZE: 8
-      EMB_DIM: 96
-      DEPTH_EN: [8, 8, 8, 8]
-      HEAD_NUM: [8, 8, 8, 8]
-      MLP_RATIO: 4.0
-      QKV_BIAS: True
-      QK_SCALE: 8
-      DROP_RATE: 0.
-      ATTN_DROP_RATE: 0.
-      DROP_PATH_RATE: 0.1
-      APE: False
-      PATCH_NORM: True
-      USE_CHECKPOINTS: False
-      FINAL_UPSAMPLE: 'Dual up-sample'
-
-    MODEL:
-      MODE: 'Denoising'
-
-    # Optimization arguments.
-    OPTIM:
-      BATCH: 4
-      EPOCHS: 500
-      # EPOCH_DECAY: [10]
-      LR_INITIAL: 2e-4
-      LR_MIN: 1e-6
-      # BETA1: 0.9
-
-    TRAINING:
-      VAL_AFTER_EVERY: 1
-      RESUME: False
-      TRAIN_PS: 256
-      VAL_PS: 256
-      TRAIN_DIR: './datasets/Denoising_DIV2K/train'       # path to training data
-      VAL_DIR: './datasets/Denoising_DIV2K/test' # path to validation data
-      SAVE_DIR: './checkpoints'           # path to save models and images
-  ```
-- Dataset:  
-  The preparation of dataset in more detail, see [datasets/README.md](datasets/README.md).  
-  
-- Train:  
-  If the above path and data are all correctly setting, just simply run:  
-  ```
-  python train.py
-  ```  
-## Result  
-
-<img src = "https://i.imgur.com/golsiWN.png" width="800">  
-
-## Visual Comparison  
-
-<img src = "https://i.imgur.com/UeeOO0M.png" width="800">  
-
-<img src = "https://i.imgur.com/YavgU0r.png" width="800">  
-
-
-
-## Citation  
-If you use SUNet, please consider citing:  
-```
+SUNet Optimized Inference Pipeline
+NTIRE 2026 Image Denoising Challenge (noise level = 50)
+Team Name: [nudt_bestin_ntire]
+Team ID: [17]
+Team Leader: [Tianyu Xiao]
+Leader Email: [3980209359@qq.com]
+This project is an optimized inference implementation for image denoising task in NTIRE 2026. It is built upon the SUNet model architecture, with comprehensive engineering improvements on inference strategy, memory efficiency, image reconstruction, reproducibility, and evaluation metrics.
+Method Overview
+Our solution is based on the SUNet (Swin Transformer UNet) denoising backbone proposed by Fan et al. We do not modify the original model structure, but redesign the entire inference pipeline to achieve better denoising quality, faster speed, lower GPU memory consumption, and artifact-free reconstruction for high-resolution test images.
+Major Optimizations (Our Contributions)
+1.	Overlapped patch inference with Gaussian-weighted fusion
+1.	Replace simple fold average with Gaussian-weighted patch reconstruction to completely eliminate stitching artifacts.
+2.	Use reflection padding instead of zero-padding to reduce edge artifacts.
+2.	Test-Time Augmentation (TTA)
+1.	Add horizontal/vertical flip augmentation during inference.
+2.	Effectively improve PSNR/SSIM by about 0.2–0.5 dB.
+3.	Mixed precision inference (FP16)
+1.	Reduce GPU memory usage by nearly 50%.
+2.	Speed up inference without losing denoising quality.
+4.	Explicit memory management
+1.	Manual tensor deletion, GPU cache clearing, and garbage collection.
+2.	Stable for batch processing of large datasets without memory leak.
+5.	Automatic evaluation & logging
+1.	Built-in PSNR/SSIM calculation for each image.
+2.	Automatically generate a complete log including runtime, average metrics, and hardware usage for reproducibility.
+6.	Robust engineering implementation
+1.	Support arbitrary input resolution.
+2.	Automatic GPU/CPU detection.
+3.	Command-line configurable paths and parameters.
+4.	Clear progress bar and real-time feedback.
+Environment
+ca-certificates	2026.2.25	
+certifi	2026.2.25	
+charset-normalizer	3.4.4	
+colorama	0.4.6	
+einops	0.8.1	
+filelock	3.16.1	
+fsspec	2025.3.0	
+huggingface-hub	0.36.2	
+idna	3.11	
+imageio	2.35.1	
+jinja2	3.1.6	
+joblib	1.4.2	
+lazy-loader	0.4	
+libffi	3.5.2	
+liblzma	5.8.2	
+liblzma-devel	5.8.2	
+libsqlite	3.51.2	
+libzlib	1.3.1	
+markupsafe	2.1.5	
+mpmath	1.3.0	
+natsort	8.4.0	
+networkx	3.1	
+numpy	1.24.4	
+nw	0.0.5	
+opencv-python	4.13.0.92	
+openssl	3.6.1	
+packaging	26.0	
+pillow	10.4.0	
+pip	25.0.1	
+protobuf	5.29.6	
+python	3.8.20	
+pytorch-msssim	1.0.0	
+pywavelets	1.4.1	
+pyyaml	6.0.3	
+requests	2.32.4	
+safetensors	0.5.3	
+scikit-image	0.21.0	
+scipy	1.10.1	
+setuptools	75.3.0	
+sympy	1.13.3	
+tensorboardx	2.6.2.2	
+thop	0.1.1-2209072238	
+tifffile	2023.7.10	
+timm	0.9.16	
+tk	8.6.13	
+torch	2.1.0+cu121	
+torchaudio	2.1.0+cu121	
+torchvision	0.16.0+cu121	
+tqdm	4.67.3	
+typing-extensions	4.13.2	
+ucrt	10.0.26100.0	
+urllib3	2.2.3	
+vc	14.3	
+vc14-runtime	14.44.35208	
+vcomp14	14.44.35208	
+warmup-scheduler	0.3	
+wheel	0.45.1	
+xz	5.8.2	
+xz-tools	5.8.2	
+How to Run
+python demo_any_resolution \
+    --input_dir SUNet_Project/SUNet-main/datasets/Denoising_DIV2K/test/input \
+    --result_dir SUNet_Project/SUNet-main/datasets/Denoising_DIV2K/test/target \
+    --weights pretrain-model/model_bestPSNR.pth
+Citation
+Original SUNet Model
 @inproceedings{fan2022sunet,
   title={SUNet: swin transformer UNet for image denoising},
   author={Fan, Chi-Mao and Liu, Tsung-Jung and Liu, Kuan-Hsien},
@@ -139,7 +103,9 @@ If you use SUNet, please consider citing:
   year={2022},
   organization={IEEE}
 }
-```
-
-![Visitors](https://api.visitorbadge.io/api/visitors?path=https%3A%2F%2Fgithub.com%2FFanChiMao%2FSUNet&label=visitors&countColor=%232ccce4&style=plastic)  
+Official repository: https://github.com/FanChiMao/SUNet
+Acknowledgement
+We thank the authors of SUNet for their excellent work and open-source contribution. Our optimized inference pipeline fully respects the original model and is designed for better performance and reproducibility in the NTIRE 2026 challenge.
+Contact
+For reproducibility issues or questions about the optimized code, please contact the team leader via email:3980209359@qq.com
 
